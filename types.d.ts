@@ -1,10 +1,10 @@
-interface AnalyserType {
+export interface AnalyserType {
   fileName: fs.PathLike;
   dependencies: Record<PropertyKey, string>;
   code: string;
 }
 
-interface GraphInfoType {
+export interface GraphInfoType {
   [fileName: string]: {
     code: AnalyserType['code'];
     dependencies: AnalyserType['dependencies'];

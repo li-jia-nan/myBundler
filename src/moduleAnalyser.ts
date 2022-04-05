@@ -4,6 +4,7 @@ import utils from '../utils/utils';
 import traverse from '@babel/traverse';
 import { parse } from '@babel/parser';
 import { transformFromAst } from '@babel/core';
+import { AnalyserType } from '../types';
 
 const moduleAnalyser = (fileName: PathLike): Promise<AnalyserType> => {
   const entry = utils.completePath(fileName);

@@ -1,4 +1,5 @@
 import { PathLike } from 'fs';
+import { AnalyserType, GraphInfoType } from '../types';
 import utils from '../utils/utils';
 import moduleAnalyser from './moduleAnalyser';
 
