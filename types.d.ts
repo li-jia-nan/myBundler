@@ -1,10 +1,10 @@
-declare interface AnalyserType {
+interface AnalyserType {
   fileName: fs.PathLike;
   dependencies: Record<PropertyKey, string>;
   code: string;
 }
 
-declare interface GraphInfoType {
+interface GraphInfoType {
   [fileName: string]: {
     code: AnalyserType['code'];
     dependencies: AnalyserType['dependencies'];
