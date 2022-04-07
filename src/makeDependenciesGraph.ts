@@ -3,17 +3,15 @@ import { AnalyserType, GraphInfoType } from '../types';
 import utils from '../utils/utils';
 import moduleAnalyser from './moduleAnalyser';
 
-const makeDependenciesGraph = async (fileName: PathLike): Promise<GraphInfoType> => {
+const makeDependenciesGraph = (fileName: PathLike): GraphInfoType => {
   const entry = utils.completePath(fileName);
-  const entryModule = await moduleAnalyser(entry);
+  const entryModule = moduleAnalyser(entry);
   const graphArray: AnalyserType[] = [entryModule];
   for (let i = 0; i < graphArray.length; i++) {
     const { dependencies } = graphArray[i];
     if (dependencies) {
       graphArray.push(
-        ...(await Promise.all<AnalyserType>(
-          Object.keys(dependencies).map(key => moduleAnalyser(Reflect.get(dependencies, key)))
-        ))
+        ...Object.keys(dependencies).map(key => moduleAnalyser(Reflect.get(dependencies, key)))
       );
     }
   }

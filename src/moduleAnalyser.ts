@@ -3,10 +3,10 @@ import fs, { PathLike } from 'fs';
 import utils from '../utils/utils';
 import traverse from '@babel/traverse';
 import { parse } from '@babel/parser';
-import { transformFromAst } from '@babel/core';
+import { transformFromAstSync } from '@babel/core';
 import { AnalyserType } from '../types';
 
-const moduleAnalyser = (fileName: PathLike): Promise<AnalyserType> => {
+const moduleAnalyser = (fileName: PathLike): AnalyserType => {
   const entry = utils.completePath(fileName);
   const content = fs.readFileSync(entry, 'utf8');
   const ast = parse(content, { sourceType: 'module' });
@@ -18,14 +18,8 @@ const moduleAnalyser = (fileName: PathLike): Promise<AnalyserType> => {
       Reflect.set(dependencies, node.source.value, newFile.replace(/\\/g, '/'));
     },
   });
-  return new Promise<AnalyserType>(resolve => {
-    transformFromAst(ast, null, { presets: ['@babel/preset-env'] }, (err, result) => {
-      if (err) {
-        resolve({ fileName, dependencies, code: '' });
-      }
-      resolve({ fileName, dependencies, code: result.code });
-    });
-  });
+  const { code = '' } = transformFromAstSync(ast, null, { presets: ['@babel/preset-env'] });
+  return { fileName, dependencies, code };
 };
 
 export default moduleAnalyser;
