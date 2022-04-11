@@ -11,7 +11,9 @@ const makeDependenciesGraph = (fileName: PathLike): GraphInfoType => {
     const { dependencies } = graphArray[i];
     if (dependencies) {
       graphArray.push(
-        ...Object.keys(dependencies).map(key => moduleAnalyser(Reflect.get(dependencies, key)))
+        ...Object.keys(dependencies).map<AnalyserType>(key =>
+          moduleAnalyser(Reflect.get(dependencies, key))
+        )
       );
     }
   }
